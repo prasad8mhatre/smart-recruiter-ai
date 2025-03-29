@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Recruitment AI Assistant</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
+  <script src="lib/marked.min.js"></script>
+  <link rel="stylesheet" href="lib/github-markdown.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <span class="material-icons">people_alt</span>
+        <h1>Recruitment AI</h1>
+      </div>
+    </header>
+
+    <main>
+      <div class="job-input-section">
+        <div class="input-group">
+          <label for="job-url">Job Posting URL</label>
+          <input type="url" id="job-url" placeholder="Paste job posting URL here">
+          <button id="fetch-job" class="secondary-button">
+            <span class="material-icons">download</span>
+            Fetch Job Details
+          </button>
+        </div>
+        
+        <div class="input-group">
+          <label for="job-description">Or Paste Job Description</label>
+          <textarea id="job-description" rows="4" placeholder="Paste job description here"></textarea>
+        </div>
+      </div>
+
+      <button id="analyze" class="primary-button">
+        <span class="material-icons">analytics</span>
+        Analyze Profile
+      </button>
+
+      <div id="loader" class="loader hidden">
+        <div class="spinner"></div>
+        <p>Analyzing profile...</p>
+      </div>
+
+      <div id="results" class="results hidden">
+        <div class="card markdown-body match-indicator">
+          <h3><span class="material-icons">analytics</span> Profile Match</h3>
+          <div class="match-score">
+            <div class="progress-bar">
+              <div id="match-percentage" class="progress"></div>
+            </div>
+            <div id="match-value">0%</div>
+          </div>
+          <div id="match-label" class="match-label"></div>
+          <div id="debug-info" class="debug-info hidden"></div>
+        </div>
+
+        <div class="card markdown-body qualifications">
+          <h3><span class="material-icons">assignment</span> Key Qualifications</h3>
+          <div id="qualifications-content"></div>
+        </div>
+
+        <div class="card markdown-body message">
+          <h3><span class="material-icons">mail</span> Outreach Message</h3>
+          <div id="message-content"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
