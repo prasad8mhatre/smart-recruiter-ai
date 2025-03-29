@@ -123,8 +123,8 @@ document.addEventListener('DOMContentLoaded', function() {
       // Update UI elements with validation and fallbacks
       matchElement.style.width = `${matchPercentage}%`;
       matchValue.textContent = `${matchPercentage}%`;
-      matchLabel.innerHTML = data.scoreReasoning ? 
-        sanitizeAndRender(data.scoreReasoning) : 
+      matchLabel.innerHTML = data.match_analysis ? 
+        sanitizeAndRender(data.match_analysis) : 
         'Score calculation failed';
 
       // Show debug info
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
       debugInfo.classList.remove('hidden');
 
       // Display results with sanitization
-      qualificationsContent.innerHTML = sanitizeAndRender(data.analysis);
+      qualificationsContent.innerHTML = sanitizeAndRender(data.key_qualifications);
       messageContent.innerHTML = sanitizeAndRender(data.message);
       
       // Show results

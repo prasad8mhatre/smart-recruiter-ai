@@ -26,6 +26,7 @@ from recruitment_utils import (
     model
 )
 from recruitment_agent import run_recruitment_agent
+import pdb
 
 # Load environment variables
 load_dotenv()
@@ -89,8 +90,16 @@ def extract_from_raw_html(html: str) -> Dict[str, str]:
 def analyze_profile(profile_data: Dict[str, Any], job_description: str) -> Dict[str, Any]:
     """Analyze profile data against job description using agent."""
     try:
-        print("Received profile data:", json.dumps(profile_data, indent=2))
+        #print("Received profile data:", json.dumps(profile_data, indent=2))
         
+        # Convert string profile data to dict format
+        if isinstance(profile_data, str):
+            profile_data = {
+                'content': profile_data,
+                'intro': {'name': 'Candidate', 'headline': ''}
+            }
+        
+        #profile_data =  json.dumps(profile_data)
         # Use the recruitment agent to analyze the profile
         result = run_recruitment_agent(profile_data, job_description)
         
@@ -125,14 +134,17 @@ def extract_years_from_experience(text: str) -> int:
 @app.route('/analyze', methods=['POST'])
 def analyze_profile_endpoint():
     try:
+        #pdb.set_trace()  # Debug: API request received
         data = request.json
         if not data or 'profile' not in data or 'jobDescription' not in data:
             return jsonify({'error': 'Invalid request data'}), 400
             
         analysis_result = analyze_profile(data['profile'], data['jobDescription'])
+        #pdb.set_trace()  # Debug: Before sending response
         
         return jsonify(analysis_result)
     except Exception as e:
+        #pdb.set_trace()  # Debug: Error handling
         print(f"Error: {str(e)}")
         print(traceback.format_exc())
         return jsonify({

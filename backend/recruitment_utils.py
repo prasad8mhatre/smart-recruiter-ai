@@ -2,6 +2,8 @@ import google.generativeai as genai
 from typing import Dict, Any
 import os
 from dotenv import load_dotenv
+from bs4 import BeautifulSoup
+import pdb
 
 # Load environment variables
 load_dotenv()
@@ -10,11 +12,34 @@ load_dotenv()
 genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
 model = genai.GenerativeModel('gemini-2.0-flash')
 
-def calculate_profile_score(profile_content: str, job_description: str, profile_data: Dict[str, Any]) -> tuple[int, str, str, str]:
+def process_profile_data(profile_data: Any) -> Dict[str, Any]:
+    """Convert profile data to proper format."""
+    if isinstance(profile_data, str):
+        return {
+            'content': profile_data,
+            'intro': {
+                'name': 'Candidate',
+                'headline': ''
+            }
+        }
+    return profile_data
+
+def calculate_profile_score(profile_content: str, job_description: str) -> tuple[int, str, str, str]:
     """Calculate profile score and analysis sections."""
+    #pdb.set_trace()  # Debug: Score calculation start
+    
+    # Convert profile_data to proper format
+    #formatted_profile = process_profile_data(profile_data)
+    
+    # Clean and truncate profile content
+    if isinstance(profile_content, str):
+        profile_content = BeautifulSoup(profile_content, 'html.parser').get_text()
+        # Limit content length and clean up whitespace
+        profile_content = ' '.join(profile_content.split())[:2000]
+    
     prompt = f"""
     As an expert recruiter, analyze this candidate's profile against the job requirements.
-    Format your ENTIRE response using Markdown syntax.
+    Format your ENTIRE response using Markdown syntax with EXACTLY these sections:
     
     Job Requirements:
     {job_description}
@@ -22,11 +47,7 @@ def calculate_profile_score(profile_content: str, job_description: str, profile_
     Complete Profile Content:
     {profile_content}
 
-    Additional Info:
-    - Name: {profile_data.get('intro', {}).get('name', 'N/A')}
-    - Headline: {profile_data.get('intro', {}).get('headline', 'N/A')}
-
-    Respond in exactly this format with Markdown:
+    Respond with:
     
     ### Match Score
     **Score:** [number between 0-100]
@@ -50,17 +71,33 @@ def calculate_profile_score(profile_content: str, job_description: str, profile_
     """
     
     response = model.generate_content(prompt)
+    #pdb.set_trace()  # Debug: After AI response
+    
     if not response or not response.text:
         raise Exception("Empty response from Gemini")
         
     text = response.text
     score = max(0, min(100, extract_score(text)))
     
-    reasoning_section = text[text.find('### Match Analysis'):text.find('### Qualifications Analysis')]
-    analysis_section = text[text.find('### Qualifications Analysis'):text.find('### Personalized Message')]
-    message_section = text[text.find('### Personalized Message'):].replace('### Personalized Message', '').strip()
+    # Extract sections more carefully
+    sections = {
+        'analysis': text[text.find('### Match Analysis'):text.find('### Qualifications Analysis')],
+        'qualifications': text[text.find('### Qualifications Analysis'):text.find('### Personalized Message')],
+        'message': text[text.find('### Personalized Message'):]
+    }
     
-    return score, reasoning_section.strip(), analysis_section.strip(), message_section
+    # Clean up section headers and whitespace
+    cleaned_sections = {
+        key: section.replace(f'### {key.title()}', '').strip()
+        for key, section in sections.items()
+    }
+    
+    return (
+        score,
+        cleaned_sections['analysis'],
+        cleaned_sections['qualifications'],
+        cleaned_sections['message'].replace('### Personalized Message', '').strip()
+    )
 
 def extract_score(text: str) -> int:
     """Helper function to extract score from text."""
@@ -74,6 +111,9 @@ def extract_score(text: str) -> int:
 
 def generate_outreach_message(name: str, score: int, message_section: str) -> str:
     """Generate personalized outreach message."""
+    #pdb.set_trace()  # Debug: Message generation
+    
+    print(f"generated outreach message: {name}")
     return f"""
     Hi {name},
     
@@ -85,22 +125,9 @@ def generate_outreach_message(name: str, score: int, message_section: str) -> st
     Recruitment Team
     """
 
-def send_notifications(profile_data: Dict[str, Any], score: int, message_section: str) -> None:
+def send_notifications(profile_data: str, score: int, message_section: str) -> bool:
     """Send email and SMS notifications for high-scoring candidates."""
-    email = profile_data.get('email')
-    phone = profile_data.get('phone')
-    name = profile_data.get('name', 'Candidate')
+    #pdb.set_trace()  # Debug: Notification sending
     
-    if score >= 90:
-        notification_message = generate_outreach_message(name, score, message_section)
-        
-        # Log notification attempts
-        print(f"Sending notifications for {name} (Score: {score})")
-        
-        if email:
-            print(f"Would send email to: {email}")
-            # Email sending functionality would be implemented here
-            
-        if phone:
-            print(f"Would send SMS to: {phone}")
-            # SMS sending functionality would be implemented here
+    print(f"Sent notifications for profile: {profile_data}")
+    return True

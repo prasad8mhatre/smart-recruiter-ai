@@ -1,0 +1,234 @@
+2025-03-30 02:33:49,874 - RecruitmentAgent - INFO - 📄 Processing cleaned profile with 5000 characters
+2025-03-30 02:33:49,874 - RecruitmentAgent - INFO - 
+=== 🔄 Starting Iteration 1/7 ===
+2025-03-30 02:33:49,874 - RecruitmentAgent - INFO - 📝 Initial query created
+2025-03-30 02:33:49,874 - RecruitmentAgent - INFO - 🤖 Requesting LLM response
+2025-03-30 02:34:00,686 - RecruitmentAgent - INFO - 📥 Received response: FUNCTION_CALL: calculate_profile_score|{"profile_content": "0 notifications total\nSkip to search\nS...
+2025-03-30 02:34:00,686 - RecruitmentAgent - INFO - 🔍 Function call detected
+2025-03-30 02:34:00,686 - RecruitmentAgent - INFO - 📋 Parsed function call: calculate_profile_score
+2025-03-30 02:34:00,686 - RecruitmentAgent - INFO - ================================================================================
+2025-03-30 02:34:00,686 - RecruitmentAgent - INFO - 🔄 FUNCTION CALL: calculate_profile_score
+2025-03-30 02:34:00,686 - RecruitmentAgent - INFO - 📥 INPUT PARAMETERS:
+2025-03-30 02:34:00,686 - RecruitmentAgent - INFO -   - profile_content: 0 notifications total
+Skip to search
+Skip to main content
+Keyboard shortcuts
+Close jump menu
+ew feed updates notifications
+Home
+3
+3 new network updates notifications
+My Network
+Jobs
+Messaging
+2
+2 new ...
+2025-03-30 02:34:00,686 - RecruitmentAgent - INFO -   - job_description: Have you got what it takes?  
+
+4+ years of software development experience
+Has high-attention to details and works well in a dynamic and intense environment.
+Experience in developing high performance,...
+2025-03-30 02:34:09,757 - RecruitmentAgent - INFO - 📤 OUTPUT:
+2025-03-30 02:34:09,757 - RecruitmentAgent - INFO -   Return value 1: 85
+2025-03-30 02:34:09,757 - RecruitmentAgent - INFO -   Return value 2: ### Match Analysis
+The candidate appears to be a strong match for the job requirements. They possess significant software development experience, including relevant technologies and a focus on AI/ML, ...
+2025-03-30 02:34:09,757 - RecruitmentAgent - INFO -   Return value 3: Analysis
+
+#### Key Qualifications
+- Over 4 years of software development experience (Senior Specialist Software Engineer).
+- Experience with NodeJS, Python.
+- Experience with Angular.
+- Experience in ...
+2025-03-30 02:34:09,757 - RecruitmentAgent - INFO -   Return value 4: Subject: Software Engineer Opportunity - High Performance Systems
+
+Hi Prasad,
+
+I came across your profile and was impressed with your experience at NICE, particularly your work with LLMs, AI-powered s...
+2025-03-30 02:34:09,757 - RecruitmentAgent - INFO - ✅ Function calculate_profile_score completed successfully
+2025-03-30 02:34:09,757 - RecruitmentAgent - INFO - 📋 NEXT STEPS:
+2025-03-30 02:34:09,757 - RecruitmentAgent - INFO -   - Good match (>50): Generate outreach message
+2025-03-30 02:34:09,757 - RecruitmentAgent - INFO - ================================================================================
+2025-03-30 02:34:09,758 - RecruitmentAgent - INFO - ✅ Function executed successfully
+2025-03-30 02:34:09,758 - RecruitmentAgent - INFO - ➡️ Completed iteration 1
+2025-03-30 02:34:09,758 - RecruitmentAgent - INFO - 
+=== 🔄 Starting Iteration 2/7 ===
+2025-03-30 02:34:09,758 - RecruitmentAgent - INFO - 📝 Follow-up query created with previous results
+2025-03-30 02:34:09,758 - RecruitmentAgent - INFO - 🤖 Requesting LLM response
+2025-03-30 02:34:11,443 - RecruitmentAgent - INFO - 📥 Received response: FUNCTION_CALL: generate_outreach_message|{"name": "Prasad Mhatre", "score": 85, "message_section": "...
+2025-03-30 02:34:11,443 - RecruitmentAgent - INFO - 🔍 Function call detected
+2025-03-30 02:34:11,443 - RecruitmentAgent - INFO - 📋 Parsed function call: generate_outreach_message
+2025-03-30 02:34:11,443 - RecruitmentAgent - INFO - ================================================================================
+2025-03-30 02:34:11,443 - RecruitmentAgent - INFO - 🔄 FUNCTION CALL: generate_outreach_message
+2025-03-30 02:34:11,443 - RecruitmentAgent - INFO - 📥 INPUT PARAMETERS:
+2025-03-30 02:34:11,443 - RecruitmentAgent - INFO -   - name: Prasad Mhatre
+2025-03-30 02:34:11,443 - RecruitmentAgent - INFO -   - score: 85
+2025-03-30 02:34:11,443 - RecruitmentAgent - INFO -   - message_section: Subject: Software Engineer Opportunity - High Performance Systems
+
+Hi Prasad,
+
+I came across your profile and was impressed with your experience at NICE, particularly your work with LLMs, AI-powered s...
+generated outreach message: Prasad Mhatre
+2025-03-30 02:34:11,443 - RecruitmentAgent - INFO - 📤 OUTPUT:
+2025-03-30 02:34:11,443 - RecruitmentAgent - INFO -   Return value: 
+    Hi Prasad Mhatre,
+    
+    Great news! Based on our analysis, your profile is an excellent match (85%) for the position.
+    
+    Subject: Software Engineer Opportunity - High Performance Systems...
+2025-03-30 02:34:11,443 - RecruitmentAgent - INFO - ✅ Function generate_outreach_message completed successfully
+2025-03-30 02:34:11,443 - RecruitmentAgent - INFO - ================================================================================
+2025-03-30 02:34:11,443 - RecruitmentAgent - INFO - ✅ Function executed successfully
+2025-03-30 02:34:11,444 - RecruitmentAgent - INFO - ➡️ Completed iteration 2
+2025-03-30 02:34:11,444 - RecruitmentAgent - INFO - 
+=== 🔄 Starting Iteration 3/7 ===
+2025-03-30 02:34:11,444 - RecruitmentAgent - INFO - 📝 Follow-up query created with previous results
+2025-03-30 02:34:11,444 - RecruitmentAgent - INFO - 🤖 Requesting LLM response
+2025-03-30 02:34:18,367 - RecruitmentAgent - INFO - 📥 Received response: FUNCTION_CALL: send_notifications|{"profile_data": "0 notifications total\nSkip to search\nSkip to m...
+2025-03-30 02:34:18,367 - RecruitmentAgent - INFO - 🔍 Function call detected
+2025-03-30 02:34:18,367 - RecruitmentAgent - INFO - 📋 Parsed function call: send_notifications
+2025-03-30 02:34:18,367 - RecruitmentAgent - INFO - ================================================================================
+2025-03-30 02:34:18,367 - RecruitmentAgent - INFO - 🔄 FUNCTION CALL: send_notifications
+2025-03-30 02:34:18,367 - RecruitmentAgent - INFO - 📥 INPUT PARAMETERS:
+2025-03-30 02:34:18,367 - RecruitmentAgent - INFO -   - profile_data: 0 notifications total
+Skip to search
+Skip to main content
+Keyboard shortcuts
+Close jump menu
+ew feed updates notifications
+Home
+3
+3 new network updates notifications
+My Network
+Jobs
+Messaging
+2
+2 new ...
+2025-03-30 02:34:18,367 - RecruitmentAgent - INFO -   - score: 85
+2025-03-30 02:34:18,368 - RecruitmentAgent - INFO -   - message_section: Subject: Software Engineer Opportunity - High Performance Systems
+
+Hi Prasad,
+
+I came across your profile and was impressed with your experience at NICE, particularly your work with LLMs, AI-powered s...
+Sent notifications for profile: 0 notifications total
+Skip to search
+Skip to main content
+Keyboard shortcuts
+Close jump menu
+ew feed updates notifications
+Home
+3
+3 new network updates notifications
+My Network
+Jobs
+Messaging
+2
+2 new notifications
+Notifications
+Me
+For Business
+Reactivate Premium
+Prasad Mhatre
+Senior Specialist Software Engineer | Java, Python, NodeJS, GO, Angular, Javascript| AI, ML, Generative AI, Copilot| LLM, RAG, VectorDB, Data Science, Data Structure & Algorithm
+NICE
+Birla Institute of Technology and Science, Pilani
+Pune, Maharashtra, India  Contact info
+Open to
+Add profile section
+Enhance profile
+Resources
+Tell internal hirers you’re interested in jobs at your current company
+Get started
+Share that you’re hiring and attract qualified candidates.
+Get started
+Showcase your services as a section on your profile so your business can be easily discovered.
+Get started
+Suggested for you
+Suggested for you
+Private to you
+Private to you
+Are you still working at NICE?
+Are you still working at NICE?
+Keeping your profile up-to-date helps you attract the right opportunities.
+Keeping your profile up-to-date helps you attract the right opportunities.
+Confirm current position
+Analytics
+Analytics
+Private to you
+Private to you
+212 profile views
+212 profile views
+Discover who's viewed your profile.
+Discover who's viewed your profile.
+535 post impressions
+535 post impressions
+Check out who's engaging with your posts.
+Check out who's engaging with your posts.
+Past 7 days
+Past 7 days
+132 search appearances
+132 search appearances
+See how often you appear in search results.
+See how often you appear in search results.
+Show all analytics
+About
+About
+At NICE, my work as a Senior Specialist Software Engineer centers on innovating with Large Language Models (LLM) for our Copilot products, ensuring exceptional customer experiences. The AI-powered NICE Enlighten Actions, which I designed, equips operation managers with rapid, data-driven insights, enhancing decision-making and operational efficiency.
+Programming language: Java, Javascript, Python, Go
+Cloud: AWS, Google cloud,Azure
+Framework: Spring boot, Hibernate, NodeJs, Flask, FastAPI, Langchain, Semantic Kernel, CrewAI
+LLM: OpenAI, Claude3
+Database: MySQL, postgres, DynamoDB, Neo4j, Qdrant, ChromaDB,MongoDB,Redis
+Data Science & Analytics
+With a Master of Technology in Data Science from BITS, Pilani, and expertise in AI, my approach fuses technical acumen with strategic foresight. The challenges of developing Text2Sql with LLM and architecting a high-uptime global authentication system underscore my commitment to pushing the boundaries of AI applications in customer service. Expert in Data structure and algorithms.
+At NICE, my work as a Senior Specialist Software Engineer centers on innovating with Large Language Models (LLM) for our Copilot products, ensuring exceptional customer experiences. The AI-powered NICE Enlighten Actions, which I designed, equips operation managers with rapid, data-driven insights, enhancing decision-making and operational efficiency. Programming language: Java, Javascript, Python, Go Cloud: AWS, Google cloud,Azure Framework: Spring boot, Hibernate, NodeJs, Flask, FastAPI, Langchain, Semantic Kernel, CrewAI LLM: OpenAI, Claude3 Database: MySQL, postgres, DynamoDB, Neo4j, Qdrant, ChromaDB,MongoDB,Redis Data Science & Analytics With a Master of Technology in Data Science from BITS, Pilani, and expertise in AI, my approach fuses technical acumen with strategic foresight. The challenges of developing Text2Sql with LLM and architecting a high-uptime global authentication system underscore my commitment to pushing the boundaries of AI applications in customer service. Expert in Data structure and algorithms.
+Top skills
+Top skills
+Generative AI Tools
+Generative AI Tools
+Activity
+Activity
+1,762 followers
+1,762 followers
+Create a post
+Posts
+Comments
+Loaded 9 Posts posts
+Prasad Mhatre
+Prasad Mhatre
+• You
+• You
+Senior Specialist Software Engineer | Java, Python, NodeJS, GO, Angular, Javascript| AI, ML, Generative AI, Copilot| LLM, RAG, VectorDB, Data Science, Data Structure & Algorithm
+Senior Specialist Software Engineer | Java, Python, NodeJS, GO, Angular, Javascript| AI, ML, Generative AI, Copilot| LLM, RAG, VectorDB, Data Science, Data Structure & Algorithm
+6h • Edited •
+6 hours ago
+🚀 Introducing AI Chat Assistant for Web – Your Smartest Browsing Companion!
+Ever wished you could chat with any webpage or PDF as if it were a live assistant? Now you can! With Google’s Gemini AI, our Chrome extension turns any content into an interactive chatbot that answers your questions, summarizes key points, and even provides source citations.
+🔹 Why You'll Love It:
+✅ Works seamlessly on any webpage or PDF
+💬 Natural conversational interface for effortless interaction
+📚 AI-powered citations so you can trust your sources
+⚡ Powered by Google’s Gemini AI for top-tier intelligence
+🔒 Privacy
+2025-03-30 02:34:18,368 - RecruitmentAgent - INFO - 📤 OUTPUT:
+2025-03-30 02:34:18,368 - RecruitmentAgent - INFO -   Return value: True
+2025-03-30 02:34:18,368 - RecruitmentAgent - INFO - ✅ Function send_notifications completed successfully
+2025-03-30 02:34:18,368 - RecruitmentAgent - INFO - ================================================================================
+2025-03-30 02:34:18,368 - RecruitmentAgent - INFO - ✅ Function executed successfully
+2025-03-30 02:34:18,368 - RecruitmentAgent - INFO - ➡️ Completed iteration 3
+2025-03-30 02:34:18,368 - RecruitmentAgent - INFO - 
+=== 🔄 Starting Iteration 4/7 ===
+2025-03-30 02:34:18,369 - RecruitmentAgent - INFO - 📝 Follow-up query created with previous results
+2025-03-30 02:34:18,369 - RecruitmentAgent - INFO - 🤖 Requesting LLM response
+2025-03-30 02:34:23,525 - RecruitmentAgent - INFO - 📥 Received response: FINAL_ANSWER: {
+        "success": true,
+        "matchScore": 85,
+        "match_analysis": "The ca...
+2025-03-30 02:34:23,526 - RecruitmentAgent - INFO - 🏁 Final answer received
+2025-03-30 02:34:23,527 - RecruitmentAgent - INFO - 📊 Final result: {
+  "success": true,
+  "matchScore": 85,
+  "match_analysis": "The candidate appears to be a strong match for the job requirements. They possess significant software development experience, including relevant technologies and a focus on AI/ML, which is a strong positive. The experience with cloud infrastructure, while not explicitly detailed, is implied through working on scalable enterprise systems. The 'high-attention to details and works well in a dynamic and intense environment' is more challenging to assess from the profile alone, but the role at NICE suggests experience with demanding projects. The score is high due to the relevant skills and experience but not perfect as AWS experience needs verification.",
+  "key_qualifications": "Over 4 years of software development experience (Senior Specialist Software Engineer).\n- Experience with NodeJS, Python.\n- Experience with Angular.\n- Experience in developing enterprise-grade software products (LLM Copilot products).\n- Focus on scalable systems and customer experiences.",
+  "message": "Hi Prasad Mhatre,\n    \n    Great news! Based on our analysis, your profile is an excellent match (85%) for the position.\n    \n    Subject: Software Engineer Opportunity - High Performance Systems\n\nHi Prasad,\n\nI came across your profile and was impressed with your experience at NICE, particularly your work with LLMs, AI-powered solutions, and enterprise-grade software. We're looking for a Senior Software Engineer to join our team and contribute to building high-performance, scalable systems using technologies like NodeJS, Python, and Angular on cloud infrastructure.\n\nYour experience with designing AI-driven solutions for operational efficiency seems highly relevant to this role. I'd love to learn more about your experience with cloud technologies, specifically AWS.\n\nWould you be open to a brief conversation to discuss this opportunity further?\n\nBest regards,\n[Your Name]\n[Your Title]\n    \n    Best regards,\n    Recruitment Team"
+}
+2025-03-30 02:34:23,530 - werkzeug - INFO - 127.0.0.1 - - [30/Mar/2025 02:34:23] "POST /analyze HTTP/1.1" 200 -
