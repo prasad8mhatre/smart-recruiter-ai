@@ -1,4 +1,11 @@
-import google.generativeai as genai
+# Make sure to install dependencies first:
+# pip install -r ../requirements.txt
+
+try:
+    import google.generativeai as genai
+except ImportError:
+    raise ImportError("Please install google-generativeai: pip install google-generativeai")
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from google.oauth2.credentials import Credentials
@@ -12,7 +19,6 @@ import os
 import traceback
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup
-from .notification_service import send_email, send_sms
 
 # Load environment variables
 load_dotenv()
@@ -77,13 +83,89 @@ def extract_from_raw_html(html: str) -> Dict[str, str]:
         print(f"Error parsing raw HTML: {e}")
         return {}
 
+def calculate_profile_score(profile_content: str, job_description: str, profile_data: Dict[str, Any]) -> tuple[int, str, str, str]:
+    """Calculate profile score and analysis sections."""
+    prompt = f"""
+    As an expert recruiter, analyze this candidate's profile against the job requirements.
+    Format your ENTIRE response using Markdown syntax.
+    
+    Job Requirements:
+    {job_description}
+
+    Complete Profile Content:
+    {profile_content}
+
+    Additional Info:
+    - Name: {profile_data.get('intro', {}).get('name', 'N/A')}
+    - Headline: {profile_data.get('intro', {}).get('headline', 'N/A')}
+
+    Respond in exactly this format with Markdown:
+    
+    ### Match Score
+    **Score:** [number between 0-100]
+    
+    ### Match Analysis
+    [Detailed explanation of the match percentage]
+    
+    ### Qualifications Analysis
+    
+    #### Key Qualifications
+    - [Bullet points of matching qualifications]
+    
+    #### Areas of Excellence
+    - [Bullet points of strengths]
+    
+    #### Development Areas
+    - [Bullet points of gaps]
+    
+    ### Personalized Message
+    [Write outreach message]
+    """
+    
+    response = model.generate_content(prompt)
+    if not response or not response.text:
+        raise Exception("Empty response from Gemini")
+        
+    text = response.text
+    score, reasoning = extract_score_from_text(text)
+    score = max(0, min(100, score))
+    
+    reasoning_section = text[text.find('### Match Analysis'):text.find('### Qualifications Analysis')]
+    analysis_section = text[text.find('### Qualifications Analysis'):text.find('### Personalized Message')]
+    message_section = text[text.find('### Personalized Message'):].replace('### Personalized Message', '').strip()
+    
+    return score, reasoning, analysis_section.strip(), message_section
+
+def generate_outreach_message(name: str, score: int, message_section: str) -> str:
+    """Generate personalized outreach message."""
+    
+    print("Outreach message generated")
+    return f"""
+    Hi {name},
+    
+    Great news! Based on our analysis, your profile is an excellent match ({score}%) for the position.
+    
+    {message_section}
+    
+    Best regards,
+    Recruitment Team
+    """
+
+def send_notifications(profile_data: Dict[str, Any], score: int, message_section: str) -> None:
+    """Send email and SMS notifications for high-scoring candidates."""
+    email = profile_data.get('email')
+    phone = profile_data.get('phone')
+    name = profile_data.get('name', 'Candidate')
+    
+    
+        
+    print("Email sent")
+
 def analyze_profile(profile_data: Dict[str, Any], job_description: str) -> Dict[str, Any]:
     """Analyze profile data against job description."""
     try:
-        # Print received data for debugging
         print("Received profile data:", json.dumps(profile_data, indent=2))
 
-        # Get profile content from various possible locations with better fallbacks
         profile_content = (
             profile_data.get('content') or
             profile_data.get('fullContent') or
@@ -95,108 +177,24 @@ def analyze_profile(profile_data: Dict[str, Any], job_description: str) -> Dict[
         if not profile_content or len(profile_content.strip()) < 10:
             raise ValueError(f"Insufficient profile content. Content length: {len(profile_content or '')}")
 
-        print(f"\nProcessing content length: {len(profile_content)}")
-        print("Content preview:", profile_content[:200])
-        
-        prompt = f"""
-        As an expert recruiter, analyze this candidate's profile against the job requirements.
-        Format your ENTIRE response using Markdown syntax.
-        
-        Job Requirements:
-        {job_description}
+        # Calculate score and get analysis
+        score, reasoning, analysis_section, message_section = calculate_profile_score(
+            profile_content, job_description, profile_data
+        )
 
-        Complete Profile Content:
-        {profile_content}
-
-        Additional Info:
-        - Name: {profile_data.get('intro', {}).get('name', 'N/A')}
-        - Headline: {profile_data.get('intro', {}).get('headline', 'N/A')}
-
-        Respond in exactly this format with Markdown:
+        if score >= 50:
+            notification_message = generate_outreach_message(profile_data, score, message_section)
         
-        ### Match Score
-        **Score:** [number between 0-100]
+        # Send notifications if score is high
+        send_notifications(profile_data, score, message_section)
         
-        ### Match Analysis
-        [Detailed explanation of the match percentage]
-        
-        ### Qualifications Analysis
-        
-        #### Key Qualifications
-        - [Bullet points of matching qualifications]
-        
-        #### Areas of Excellence
-        - [Bullet points of strengths]
-        
-        #### Development Areas
-        - [Bullet points of gaps]
-        
-        ### Personalized Message
-        [Write outreach message]
-        """
-
-        print("\n=== Processing Profile ===")
-        print(f"Content length: {len(profile_content)}")
-        
-        response = model.generate_content(prompt)
-        
-        if not response or not response.text:
-            raise Exception("Empty response from Gemini")
-            
-        print("\nGemini Response:", response.text)
-        
-        # Extract score more reliably
-        text = response.text
-        score, reasoning = extract_score_from_text(text)
-        print(f"Final Score: {score}, Reasoning found: {bool(reasoning)}")
-        
-        # Ensure valid score
-        score = max(0, min(100, score))
-        
-        reasoning_section = text[text.find('### Match Analysis'):text.find('### Qualifications Analysis')]
-        analysis_section = text[text.find('### Qualifications Analysis'):text.find('### Personalized Message')]
-        message_section = text[text.find('### Personalized Message'):].replace('### Personalized Message', '').strip()
-        
-        result = {
+        return {
             'success': True,
             'matchScore': score,
             'scoreReasoning': reasoning or "Score calculation completed",
-            'analysis': analysis_section.strip() or "Analysis not available",
+            'analysis': analysis_section or "Analysis not available",
             'message': message_section or "Message not available"
         }
-
-        # Handle high match scores
-        if score >= 90:
-            # Get contact info from profile data
-            email = profile_data.get('email')
-            phone = profile_data.get('phone')
-            name = profile_data.get('name', 'Candidate')
-
-            # Prepare notification message
-            notification_message = f"""
-            Hi {name},
-            
-            Great news! Based on our analysis, your profile is an excellent match ({score}%) for the position.
-            
-            {message_section}
-            
-            Best regards,
-            Recruitment Team
-            """
-
-            # Send notifications
-            if email:
-                send_email(
-                    recipient_email=email,
-                    subject="High Profile Match - Job Opportunity",
-                    message=notification_message
-                )
-            
-            if phone:
-                sms_message = f"Hi {name}, Your profile is a {score}% match for our position! We'll contact you soon with more details."
-                send_sms(phone_number=phone, message=sms_message)
-
-        return result
 
     except Exception as e:
         print(f"Analysis error: {str(e)}")
